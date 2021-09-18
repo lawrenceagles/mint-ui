@@ -127,7 +127,10 @@ exports.User = void 0;
 
 var User = function () {
   function User(data) {
-    this.data = data;
+    this.data = data; // we are not passing this event when we create an instance of the User.
+    // Also, events are only registed after a user has been create thus we are adding as a seperate property outside the constructor.
+
+    this.events = {};
   }
 
   User.prototype.get = function (propName) {
@@ -136,6 +139,12 @@ var User = function () {
 
   User.prototype.set = function (update) {
     Object.assign(this.data, update); // overwrites everything in this.data with the update object
+  };
+
+  User.prototype.on = function (eventName, callback) {
+    var handlers = this.events[eventName] || [];
+    handlers.push(callback);
+    this.events[eventName] = handlers;
   };
 
   return User;
@@ -155,11 +164,8 @@ var user = new User_1.User({
   name: 'Lawrence Eagles',
   age: 24
 });
-user.set({
-  name: 'John Doe'
-});
-console.log(user.get('name'));
-console.log(user.get('age'));
+user.on('change', function () {});
+console.log(user);
 },{"./models/User":"src/models/User.ts"}],"../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -188,7 +194,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38625" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33211" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
