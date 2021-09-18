@@ -2260,10 +2260,7 @@ var axios_1 = __importDefault(require("axios"));
 
 var User = function () {
   function User(data) {
-    this.data = data; // we are not passing this event when we create an instance of the User.
-    // Also, events are only registed after a user has been create thus we are adding as a seperate property outside the constructor.
-
-    this.events = {};
+    this.data = data;
   }
 
   User.prototype.get = function (propName) {
@@ -2272,20 +2269,6 @@ var User = function () {
 
   User.prototype.set = function (update) {
     Object.assign(this.data, update); // overwrites everything in this.data with the update object
-  };
-
-  User.prototype.on = function (eventName, callback) {
-    var handlers = this.events[eventName] || [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
-  };
-
-  User.prototype.trigger = function (eventName) {
-    var handlers = this.events[eventName];
-    if (!handlers || handlers.length === 0) return;
-    handlers.forEach(function (callback) {
-      return callback();
-    });
   };
 
   User.prototype.fetch = function () {
